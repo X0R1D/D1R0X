@@ -1,0 +1,42 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <math.h>
+
+using namespace std;
+
+
+int main()
+{
+	setlocale(LC_ALL,"Russian");
+
+	int *arr;
+	int n = 0, i=0;
+
+	cout << "Введите количевство элементов" << endl;
+	cin >> n;
+	arr = new int[n];
+
+	cout << endl;
+
+	for (i = 0; i < n; i++) {
+		cout << "Введите " << i + 1 << " элемент массива" << endl;
+		cin >> arr[i];
+	}
+
+	cout << endl;
+
+	cout << "Ваш массив: " << endl;
+	for (i = 0; i < n; i++) {
+		cout << "arr[" << i + 1 << "]="<<arr[i] << endl;
+	}
+
+
+	delete []arr;
+
+
+	cout << " " << endl;
+	system("pause");
+	return 0;
+}
+
