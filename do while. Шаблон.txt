@@ -1,0 +1,39 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <math.h>
+
+
+using namespace std;
+// Сафарян Артур
+void main()
+{
+	setlocale(LC_ALL, "Russian");
+
+	int pred=0, nin=0;
+	int i=0;
+
+	do {
+		cout << "введите 0 или 1" << endl;
+		cin >> nin;
+
+		if (nin == pred && pred == 1) {
+			i++;
+		}
+
+		pred = nin;
+	} while (nin >= 0);
+
+	if (i > 0) {
+		cout << "Цепочка состит из " << i << " едениц" << endl;
+	}
+	else {
+		cout << "Цепочка не найдена" << endl;
+	}
+	
+
+	cout << " " << endl;
+	cout << "Press any key";
+	_getch();
+}
+
