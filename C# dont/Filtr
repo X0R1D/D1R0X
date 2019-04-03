@@ -1,0 +1,52 @@
+using System;
+using System.Text;
+using System.Windows.Forms;
+using System.IO;
+
+namespace WindowsFormsApp3
+{
+    public partial class Form1 : Form
+    {
+        public OpenFileDialog openFileDialog1;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            openFileDialog1 = new OpenFileDialog();
+
+        }
+
+        private void Start_Click(object sender, EventArgs e)
+        {
+            string tex;
+            string filt="";
+
+            openFileDialog1.ShowDialog();
+            var sr = new StreamReader(openFileDialog1.FileName);
+            tex = sr.ReadLine();
+
+            for (int i=0; i<tex.Length;i++)
+            {
+                if (tex[i]=='2' && tex[i-1] == 'D')
+                {
+                    for (int k=i-10;k<i+10;k++)
+                    {
+                        filt +=tex[k];
+                    }
+                }
+            }
+
+
+            StreamWriter wr = new StreamWriter("C:\\KeysFiltr.txt", true, Encoding.ASCII);
+            wr.Write(filt);
+            wr.Close();
+
+
+
+        }
+    }
+}
