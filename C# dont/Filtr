@@ -33,9 +33,14 @@ namespace WindowsFormsApp3
             {
                 if (tex[i]=='2' && tex[i-1] == 'D')
                 {
-                    for (int k=i-10;k<i+10;k++)
+                    for (int k=i-100;k<i+150;k++)
                     {
-                        filt +=tex[k];
+                        try
+                        {
+                            filt += tex[k];
+                        }
+                        catch { }
+                        
                     }
                 }
             }
